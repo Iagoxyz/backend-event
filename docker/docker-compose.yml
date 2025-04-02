@@ -1,0 +1,11 @@
+services:
+  mysql:
+    container_name: 'events-mysql'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=events'
+      - 'MYSQL_PASSWORD=suasenha'
+      - 'MYSQL_ROOT_PASSWORD=suasenha'
+      - 'MYSQL_USER=myuser'
+    ports:
+      - '3306:3306'
