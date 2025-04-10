@@ -54,36 +54,12 @@ public class Event {
         this.title = title;
     }
 
-    public String getPrettyName() {
-        return prettyName;
-    }
-
-    public void setPrettyName(String prettyName) {
-        this.prettyName = prettyName;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
     }
 
     public LocalDate getEndDate() {
@@ -94,6 +70,14 @@ public class Event {
         this.endDate = endDate;
     }
 
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -102,11 +86,27 @@ public class Event {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
-        return endTime;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPrettyName() {
+        return prettyName;
+    }
+
+    public void setPrettyName(String prettyName) {
+        this.prettyName = prettyName;
     }
 }
