@@ -44,7 +44,7 @@ public class Subscription {
     }
 
     public void setSubscriber(User subscriber) {
-        this.subscriber = subscriiber;
+        this.subscriber = subscriber;
     }
 
     public User getIndication() {
