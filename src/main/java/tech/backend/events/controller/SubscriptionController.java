@@ -2,10 +2,7 @@ package tech.backend.events.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.backend.events.dto.ErrorMessage;
 import tech.backend.events.dto.SubscriptionResponse;
 import tech.backend.events.exception.EventNotFoundException;
@@ -30,16 +27,22 @@ public class SubscriptionController {
             if (result != null) {
                 return ResponseEntity.ok(result);
             }
-        }
-        catch (EventNotFoundException e) {
+        } catch (EventNotFoundException e) {
             return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
-        }
-        catch (SubscriptionConflictException e) {
+        } catch (SubscriptionConflictException e) {
             return ResponseEntity.status(409).body(new ErrorMessage(e.getMessage()));
-        }
-        catch (UserIndicadorNotFoundException e) {
+        } catch (UserIndicadorNotFoundException e) {
             return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/subscription/{prettyName}/ranking")
+    public ResponseEntity<?> generateRankingByEvent(@PathVariable String prettyName) {
+        try {
+            return ResponseEntity.ok(service.getCompleteRanking(prettyName).subList(0, 3));
+        } catch (EventNotFoundException e) {
+           return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
+        }
     }
 }

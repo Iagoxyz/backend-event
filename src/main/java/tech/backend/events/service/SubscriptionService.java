@@ -2,6 +2,7 @@ package tech.backend.events.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.backend.events.dto.SubscriptionRankingItem;
 import tech.backend.events.dto.SubscriptionResponse;
 import tech.backend.events.exception.EventNotFoundException;
 import tech.backend.events.exception.SubscriptionConflictException;
@@ -11,6 +12,8 @@ import tech.backend.events.model.User;
 import tech.backend.events.repository.EventRepository;
 import tech.backend.events.repository.SubscriptionRepository;
 import tech.backend.events.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class SubscriptionService {
@@ -36,11 +39,13 @@ public class SubscriptionService {
             userRecuperado = userRepository.save(user);
         }
 
-        User indicador = userRepository.findById(userId).orElse(null);
-        if (indicador == null) {
-            throw new UserIndicadorNotFoundException("Usuário " + userId + " indicador não existe!");
+        User indicador = null;
+        if (userId != null) {
+            indicador = userRepository.findById(userId).orElse(null);
+            if (indicador == null) {
+                throw new UserIndicadorNotFoundException("Usuário " + userId + " indicador não existe!");
+            }
         }
-
 
         Subscription subs = new Subscription();
         subs.setEvent(event);
@@ -53,6 +58,14 @@ public class SubscriptionService {
         }
 
         Subscription res = subscriptionRepository.save(subs);
-        return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/" + res.getEvent().getPrettyName() + "/" + res.getSubscriber().getId());
+        return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/subscription" + res.getEvent().getPrettyName() + "/" + res.getSubscriber().getId());
+    }
+
+    public List<SubscriptionRankingItem> getCompleteRanking(String prettyName) {
+        var event = eventRepository.findByPrettyName(prettyName);
+        if (event == null) {
+            throw new EventNotFoundException("Ranking do evento " + prettyName + " não existe!");
+        }
+        return subscriptionRepository.generateRanking(event.getEventId());
     }
 }
